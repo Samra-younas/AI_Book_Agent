@@ -1,0 +1,23 @@
+services:
+  riya-chatbot:
+    build: .
+    ports:
+      - "5020:5020"
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
+      - PORT=5020
+      - LLAMA_API_KEY=${LLAMA_API_KEY}
+      - BOOK_LINK_BASE=${BOOK_LINK_BASE:-https://www.synopsisplus.com/book_details.php?book_id=}
+      - FLASK_SECRET=${FLASK_SECRET:-dev-secret}
+      - DATA_DIR=${DATA_DIR:-data}
+      - MODEL_PATH=${MODEL_PATH:-data/models/all-MiniLM-L6-v2}
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5020/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

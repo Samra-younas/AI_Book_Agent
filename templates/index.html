@@ -1,0 +1,371 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chat with Ria</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link rel="icon" type="image/x-icon" href="https://synopsisplus.com/images/synopsis-favicon.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      background-color: #f9fdfc;
+      font-family: Roboto;
+    }
+
+    .chat-wrapper {
+      width: 90%;
+      height: 100vh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 10px;
+    }
+
+    .chat-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eaeaea;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      background-color: #0F3B47;
+      border-radius: 10px;
+      color: white;
+    }
+
+    .chat-header h6 {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .chat-message {
+      margin-bottom: 15px;
+      position: relative;
+
+
+    }
+
+    .chat-message.user {
+      text-align: right;
+    }
+
+    .chat-message.bot {
+      text-align: left;
+
+    }
+
+    .chat-bubble {
+      display: inline-block;
+      padding: 10px 15px;
+      background-color: white;
+      max-width: 80%;
+    
+    }
+
+    /* .chat-message.user .chat-bubble {
+      border: 0px;
+    } */
+
+    .user p.message-text {
+      text-align: start;
+       
+    }
+
+    .bot p.message-text {
+      font-size: 16px;
+      padding: 20px;
+      color: #333;
+      margin: 0;
+      border: 0.5px solid rgba(208, 190, 190, 0.3);
+      border-radius: 10px;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+       
+    }
+
+    .message-actions {
+      font-size: 16px;
+      color: #888;
+      margin-top: 5px;
+      letter-spacing: -2px;
+      display: flex;
+      justify-content: flex-end;
+
+    }
+
+    .chat-message.bot:hover .message-actions {
+      opacity: 1;
+      height: auto;
+    }
+
+    .custom-input-wrapper {
+      background-color: #C7E7F045;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      margin: 30px auto;
+    }
+
+    .custom-input-wrapper input {
+      border: none;
+      background-color: transparent;
+      flex: 1;
+      outline: none;
+    }
+
+    .custom-send-btn {
+      background-color: #062e3f;
+      color: white;
+      border-radius: 10px;
+      padding: 6px 20px;
+      display: flex;
+      align-items: center;
+      border: none;
+    }
+
+    .custom-send-btn i {
+      margin-right: 6px;
+    }
+
+
+    .chat-footer {
+      padding: 10px 15px;
+    }
+
+
+    .main-body {
+      background-color: #F0F9FB;
+      padding: 20px;
+    }
+
+    .copied-text {
+      background: #d1e7dd;
+      color: #0f5132;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      position: absolute;
+      top: -20px;
+      display: none;
+      z-index: 1000;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 576px) {
+      .chat-bubble {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-body">
+    <div class="chat-wrapper">
+      <!-- Chat Header -->
+      <div class="chat-header">
+        <a href="#" onclick="history.back()" class="text-dark" title="Back">
+          <img width="24" height="24"
+            src="https://img.icons8.com/external-tal-revivo-bold-tal-revivo/24/FFFFFF/external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo.png"
+            alt="external-online-account-logout-with-arrow-direction-mark-login-bold-tal-revivo" />
+        </a>
+        <h6>Chatting with Ria</h6>
+        <img src="https://tse4.mm.bing.net/th/id/OIP.Dv0o4a1pPHeHHrQ5-qQLIQHaHY?pid=Api&P=0&h=40" class="rounded-circle"
+          alt="User" />
+      </div>
+
+      <!-- Chat Body -->
+      <div class="chat-body" id="chatBody">
+        <div class="chat-message bot">
+          <div class="chat-bubble">
+            <p class="message-text">Hello, I am Ria. How can I help you today?</p>
+            <div class="message-actions">
+              <i class="bi bi-clipboard me-3" onclick="copyParagraph(this)"></i>
+              <span class="copied-text">Copied</span>
+              <i class="bi bi-hand-thumbs-up me-3"></i>
+              <i class="bi bi-hand-thumbs-down me-3"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Chat Footer -->
+      <div class="chat-footer">
+        <form id="chatForm" class="input-area">
+          <div class="custom-input-wrapper">
+            <input type="text" id="userInput" placeholder="Ask anything you want to know......">
+            <button class="custom-send-btn" type="submit">
+              <i class="bi bi-send-fill"></i> Send
+            </button>
+          </div>
+          
+      <div class="text-center">
+        <p>I’m here to provide helpful answers while ensuring your data stays secure</p>
+      </div>
+        </form>
+      </div>
+
+
+    </div>
+  </div>
+
+
+<script>
+  const form = document.getElementById('chatForm');
+  const input = document.getElementById('userInput');
+  const chatBody = document.getElementById('chatBody');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const message = input.value.trim();
+    if (message === '') return;
+
+    addMessage('user', message);
+    input.value = '';
+
+    const loaderId = showTyping();
+
+    fetch('/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: message })
+    })
+    .then(response => response.json())
+    .then(data => {
+      removeTyping(loaderId);
+      addMessage('bot', data.answer, true);
+    })
+    .catch(() => {
+      removeTyping(loaderId);
+      addMessage('bot', '❌ Sorry, something went wrong.');
+    });
+  });
+
+  function addMessage(sender, text, isHtml = false) {
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('chat-message', sender);
+
+    const bubble = document.createElement('div');
+    bubble.classList.add('chat-bubble');
+
+    const messageText = document.createElement('p');
+    messageText.classList.add('message-text');
+    if (isHtml) messageText.innerHTML = text;
+    else messageText.textContent = text;
+    bubble.appendChild(messageText);
+
+    if (sender === 'bot') {
+      const actions = document.createElement('div');
+      actions.classList.add('message-actions');
+      actions.innerHTML = `
+        <i class="bi bi-clipboard me-2" onclick="copyParagraph(this)"></i>
+        <span class="copied-text" style="display: none; color: green; font-size: 12px;">Copied</span>
+        <i class="bi bi-hand-thumbs-up me-2"></i>
+        <i class="bi bi-hand-thumbs-down me-2"></i>
+      `;
+      bubble.appendChild(actions);
+    }
+
+    msgDiv.appendChild(bubble);
+    chatBody.appendChild(msgDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function showTyping() {
+    const msgDiv = document.createElement('div');
+    const loaderId = 'typing-loader-' + Date.now();
+    msgDiv.classList.add('chat-message', 'bot');
+    msgDiv.id = loaderId;
+
+    const bubble = document.createElement('div');
+    bubble.classList.add('chat-bubble');
+    bubble.innerHTML = `<span>Ria is typing<span class="dots">.</span></span>`;
+    msgDiv.appendChild(bubble);
+    chatBody.appendChild(msgDiv);
+    chatBody.scrollTop = chatBody.scrollHeight;
+
+    const dots = bubble.querySelector('.dots');
+    let count = 0;
+    const interval = setInterval(() => {
+      count = (count + 1) % 4;
+      dots.textContent = '.'.repeat(count);
+    }, 500);
+    msgDiv.setAttribute('data-interval', interval);
+    return loaderId;
+  }
+
+  function removeTyping(loaderId) {
+    const loader = document.getElementById(loaderId);
+    if (loader) {
+      const interval = loader.getAttribute('data-interval');
+      if (interval) clearInterval(interval);
+      chatBody.removeChild(loader);
+    }
+  }
+
+  function copyParagraph(icon) {
+    const messageText = icon.closest('.chat-message').querySelector('.message-text').innerText;
+    const copiedText = icon.parentElement.querySelector('.copied-text');
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(messageText).then(() => {
+        showCopied(copiedText);
+      }).catch(() => {
+        fallbackCopy(messageText);
+        showCopied(copiedText);
+      });
+    } else {
+      fallbackCopy(messageText);
+      showCopied(copiedText);
+    }
+  }
+
+  function fallbackCopy(text) {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.style.position = "fixed";
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+  }
+
+  function showCopied(el) {
+    el.style.display = "inline-block";
+    setTimeout(() => {
+      el.style.display = "none";
+    }, 1500);
+  }
+</script>
+
+
+
+</body>
+</html>
