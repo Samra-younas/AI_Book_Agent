@@ -1,6 +1,3 @@
-#if want to  rebuild then run  python refresh.py --mode full
-#or if justwant to add new book then run  python refresh.py --mode incremental
-
 import os, argparse, requests, numpy as np, faiss
 from dotenv import load_dotenv
 from sentence_transformers import SentenceTransformer
@@ -14,7 +11,7 @@ CHUNKS_PATH = os.path.join(DATA_DIR, "chunks.npy")
 META_PATH   = os.path.join(DATA_DIR, "chunk_meta.npy")
 
 BOOK_API_URL = os.getenv("BOOK_API_URL")
-GENRE_API_URL = os.getenv("GENRE_API_URL")  # 🔥 NEW: Genre API
+GENRE_API_URL = os.getenv("GENRE_API_URL")  
 MODEL_NAME   = "all-MiniLM-L6-v2"
 MODEL_PATH   = os.getenv("MODEL_PATH", os.path.join(DATA_DIR, "models", MODEL_NAME))
 ALLOW_DOWNLOAD = os.getenv("ALLOW_DOWNLOAD", "0") == "1"   # default off (read-only)
@@ -58,23 +55,23 @@ def save_all(chunks, meta, index):
     atomic_save_arrays(chunks, meta)
     atomic_save_index(index)
 
-# 🔥 NEW FUNCTION: Load Genre Mapping
+#  NEW FUNCTION: Load Genre Mapping
 def load_genre_mapping():
     """Fetch all genres and return a dict: {genre_id: genre_name}"""
     if not GENRE_API_URL:
-        print("⚠️  GENRE_API_URL not set. Genre names will be empty.")
+        print("  GENRE_API_URL not set. Genre names will be empty.")
         return {}
     
     print("Fetching genres from API...")
     try:
         r = requests.get(GENRE_API_URL, timeout=60)
         if not r.ok:
-            print(f"⚠️  Genre API failed: {r.status_code}. Genre names will be empty.")
+            print(f"  Genre API failed: {r.status_code}. Genre names will be empty.")
             return {}
         
         genres = r.json()
         if not isinstance(genres, list):
-            print("⚠️  Genre API did not return a list. Genre names will be empty.")
+            print("  Genre API did not return a list. Genre names will be empty.")
             return {}
         
         # Extract only genre_id and genre_name
@@ -89,7 +86,7 @@ def load_genre_mapping():
         return mapping
     
     except Exception as e:
-        print(f"⚠️  Error fetching genres: {e}. Genre names will be empty.")
+        print(f"  Error fetching genres: {e}. Genre names will be empty.")
         return {}
 
 def load_books_from_api():
@@ -123,7 +120,7 @@ def flatten_field(v):
         return " ".join(str(x) for x in v.values() if x)
     return str(v or "")
 
-# 🔥 UPDATED FUNCTION: Now accepts genre_mapping parameter
+#  UPDATED FUNCTION: Now accepts genre_mapping parameter
 def chunk_one_book(b, genre_mapping):
     """
     Extract book_summary only and chunk it into pieces.
@@ -133,7 +130,7 @@ def chunk_one_book(b, genre_mapping):
     b_title    = get_book_title(b)
     genre_id   = get_genre_id(b)
     
-    # 🔥 LOOKUP GENRE NAME FROM MAPPING (not from book data)
+    #  LOOKUP GENRE NAME FROM MAPPING (not from book data)
     genre_name = genre_mapping.get(genre_id, "") if genre_id else ""
 
     # Debug print to verify extraction
@@ -146,7 +143,7 @@ def chunk_one_book(b, genre_mapping):
     words = raw.split()
     
     if not words:
-        print(f"  ⚠️  No summary found for book: {b_title}")
+        print(f"    No summary found for book: {b_title}")
         return chunks, metas
 
     # Chunk the summary into pieces of CHUNK_SIZE words
@@ -158,7 +155,7 @@ def chunk_one_book(b, genre_mapping):
             "book_id": b_id,
             "book_title": b_title,
             "genre_id": genre_id,
-            "genre_name": genre_name,  # 🔥 NOW FROM LOOKUP
+            "genre_name": genre_name,
             "chunk_index": i // CHUNK_SIZE,
             "total_words": len(words)
         }
@@ -185,7 +182,7 @@ def encode_in_batches(model, texts, batch_size=256):
         outs.append(part)
     return np.vstack(outs)
 
-# 🔥 UPDATED: Now loads genre mapping first
+# UPDATED: Now loads genre mapping first
 def full_rebuild(books):
     """Rebuild the entire FAISS index from scratch."""
     print(f"\n{'='*60}")
@@ -193,14 +190,14 @@ def full_rebuild(books):
     print(f"{'='*60}")
     print(f"Total books from API: {len(books)}\n")
     
-    # 🔥 LOAD GENRE MAPPING FIRST
+    #  LOAD GENRE MAPPING FIRST
     genre_mapping = load_genre_mapping()
     
     all_chunks, all_meta = [], []
     books_processed = 0
     books_skipped = 0
     
-    # 🔥 PASS genre_mapping to chunk_one_book
+    #  PASS genre_mapping to chunk_one_book
     for b in books:
         cks, mts = chunk_one_book(b, genre_mapping)
         if cks:
@@ -242,7 +239,7 @@ def full_rebuild(books):
         for i, m in enumerate(all_meta[:3]):
             print(f"  [{i}] {m}")
 
-# 🔥 UPDATED: Now loads genre mapping first
+#  UPDATED: Now loads genre mapping first
 def incremental_add(books):
     """Add only new books to the existing FAISS index."""
     print(f"\n{'='*60}")
@@ -267,14 +264,14 @@ def incremental_add(books):
         print("✓ No new books to add. Index is up to date.\n")
         return
 
-    # 🔥 LOAD GENRE MAPPING
+    #  LOAD GENRE MAPPING
     genre_mapping = load_genre_mapping()
 
     all_new_chunks, all_new_meta = [], []
     books_processed = 0
     books_skipped = 0
     
-    # 🔥 PASS genre_mapping to chunk_one_book
+    #  PASS genre_mapping to chunk_one_book
     for b in to_add:
         cks, mts = chunk_one_book(b, genre_mapping)
         if cks:
