@@ -1,12 +1,8 @@
-AI_Book_Agent
-
 #  AI-Powered Book Recommendation & Chat Assistant
 
 Ria is a production-grade **AI chatbot** that understands user intent, emotions, and topics to deliver **context-aware book recommendations and concise explanations** using **Retrieval-Augmented Generation (RAG)**.
 
 Built with scalability, accuracy, and real-world UX in mind.
-
----
 
 ##  What This Project Does
 
@@ -16,8 +12,6 @@ Built with scalability, accuracy, and real-world UX in mind.
 - 🎯 Detects **intent, emotion, topic, and book titles**
 - 🔁 Avoids repeating recommendations using **conversation memory**
 - ⚡ Optimized for **low-latency inference** and **large datasets**
-
----
 
 ##  Core Architecture
 
@@ -33,8 +27,6 @@ LLM Response (LLaMA via OpenRouter)
 ↓
 Structured Book Recommendations
 
-
----
 
 ## 🧩 Key Technical Highlights
 
@@ -72,7 +64,6 @@ Structured Book Recommendations
   - LLM calls
   - Recommendation logic
 
----
 
 ## 🛠 Tech Stack
 
@@ -92,8 +83,6 @@ Structured Book Recommendations
 - Chunk-based document indexing
 - Metadata-driven recommendations
 - Genre-aware filtering
-
----
 
 ## 📸 Screenshots (Add Your Own)
 
