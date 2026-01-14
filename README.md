@@ -6,12 +6,12 @@ Built with scalability, accuracy, and real-world UX in mind.
 
 ##  What This Project Does
 
-- 🔍 Understands **natural language queries**, vague inputs, and follow-ups
-- 📖 Recommends books using **semantic search (FAISS + embeddings)**
-- 🧠 Uses **LLMs (LLaMA via OpenRouter)** for concise, friendly responses
-- 🎯 Detects **intent, emotion, topic, and book titles**
-- 🔁 Avoids repeating recommendations using **conversation memory**
-- ⚡ Optimized for **low-latency inference** and **large datasets**
+-  Understands **natural language queries**, vague inputs, and follow-ups
+-  Recommends books using **semantic search (FAISS + embeddings)**
+-  Uses **LLMs (LLaMA via OpenRouter)** for concise, friendly responses
+-  Detects **intent, emotion, topic, and book titles**
+- Avoids repeating recommendations using **conversation memory**
+- Optimized for **low-latency inference** and **large datasets**
 
 ##  Core Architecture
 
@@ -42,9 +42,9 @@ Structured Book Recommendations
   - `chunk_meta.npy`
   - `faiss.index`
 - Supports:
-  - ✅ **Chunk regeneration**
-  - ✅ **Partial updates**
-  - ✅ **Re-indexing without retraining the model**
+  -  **Chunk regeneration**
+  -  **Partial updates**
+  -  **Re-indexing without retraining the model**
 
 > This makes the system scalable for **new books, genres, or datasets**.
 
