@@ -502,50 +502,6 @@ BOOK_REQ_REGEX = re.compile(
 )
 
 
-BOOK_TOPIC_SYNONYMS = {
-
-  "arts & craft": ["craft", "arts", "crafts", "painting", "drawing", "DIY"],
-  "arts & entertainment": ["entertainment", "performing arts", "visual arts", "music", "films", "shows"],
-  "biographies & memoirs": ["biography", "memoir", "life story", "autobiography"],
-  "business & careers": ["career", "corporate", "office", "professional life", "business jobs"],
-  "business & money": ["business", "finance", "money", "entrepreneurship", "startup", "investment"],
-  "calendars": ["planner", "organizer", "schedule", "diary"],
-  "children's books": ["kids books", "children", "story books", "picture books"],
-  "christian books & bibles": ["christian", "bible", "religion", "faith", "gospel"],
-  "comedy & humor": ["funny", "jokes", "humorous", "comedy"],
-  "communication skills": ["speaking", "public speaking", "presentation", "listening", "conversation"],
-  "computers & technology": ["tech", "IT", "software", "hardware", "computing"],
-  "crafts, hobbies & home": ["hobbies", "crafts", "home decor", "DIY", "sewing", "knitting"],
-  "education & tea": ["education", "teaching", "learning", "study", "academics"],
-  "engineering & transportation": ["engineering", "transport", "mechanical", "automobile", "civil"],
-  "health & wellness": ["wellness", "health", "self care", "healing", "lifestyle"],
-  "health, fitness & dieting": ["fitness", "diet", "nutrition", "exercise", "weight loss"],
-  "history": ["historical", "past events", "ancient", "modern history"],
-  "home & garden": ["gardening", "home", "landscape", "interior design"],
-  "humor & entertainment": ["comedy", "fun", "entertainment", "jokes"],
-  "law": ["legal", "laws", "justice", "court", "attorney"],
-  "lgbtq+ books": ["lgbt", "queer", "gay", "lesbian", "trans", "pride"],
-  "literature & fiction": ["novel", "stories", "fiction", "literature"],
-  "management & leadership": ["leadership", "management", "teamwork", "boss", "executive"],
-  "medical books": ["medical", "medicine", "healthcare", "doctor", "nursing"],
-  "mental health and psychology": ["psychology", "mental health", "anxiety", "depression", "therapy"],
-  "military": ["army", "navy", "air force", "soldier", "defense"],
-  "money & finance": ["money", "finance", "investment", "savings", "wealth"],
-  "nature & the environment": ["nature", "climate", "environment", "wildlife", "ecology"],
-  "parenting & relationships": ["parenting", "relationships", "family", "children", "marriage"],
-  "personal development": ["self-improvement", "growth", "motivation", "success", "mindset"],
-  "politics & social sciences": ["politics", "government", "society", "civics", "social issues"],
-  "reference": ["dictionary", "encyclopedia", "manual", "guidebook", "resources"],
-  "religion & spirituality": ["religion", "faith", "spiritual", "belief", "god"],
-  "romance": ["romantic", "love story", "rom-com", "relationship fiction"],
-  "science & engineering": ["science", "engineering", "physics", "chemistry", "mechanics"],
-  "science & math": ["science", "math", "mathematics", "algebra", "calculus", "biology"],
-  "science fiction & fantasy": ["sci-fi", "fantasy", "magical", "space", "futuristic"],
-  "self-help": ["self help", "personal growth", "self-care", "life tips", "healing"],
-  "sports & outdoors": ["sports", "outdoor", "games", "fitness", "hiking", "adventure"],
-  "teen & young adult": ["teen", "ya", "young adult", "high school", "coming of age"],
-  "travel & tourism": ["travel", "tourism", "journey", "explore", "adventure"]
-}
 
 # --- Canonical map: user phrases -> one of the 35 canonical genres ---
 CANON_MAP = {}
